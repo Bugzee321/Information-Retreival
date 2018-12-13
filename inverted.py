@@ -39,16 +39,26 @@ def GetFrequency(token):
 		return len(Posting_list[token])
 	return 0
 
+def GetMatchedDoc(PostingDict):
+	temp = []
+	for index in PostingDict:
+		temp.append(PostingDict[index])
+	my_sets = map(set, temp)
+	common_items = set.intersection(*my_sets)
+	matched = list(common_items)
+	for doc in matched:
+		print "File number " + str(doc) + " Is matched doc whic is located at " + files[doc]
+
+
 def HandelQuery(query):
 	result = {}
+	MatchedDocs = []
 	for x in xrange(0,len(query)):
 		query[x] = query[x].lower()
 		result[query[x]] = GetPostingList(query[x])
 	print result
-	choice = raw_input("Do you want to search again(y/n)? ")
-	if(choice == 'y'):
-		StartProgram()
-0
+	GetMatchedDoc(result)
+	
 def StartProgram():
 	ReadFiles()
 	HandleTokens()
