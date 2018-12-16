@@ -48,9 +48,8 @@ def GetMatchedDoc(query):
 			command = command + ' ' + term.lower()
 		if term.lower() in Posting_list:
 			command = command + ' ' + str(Posting_list[term])
-	print eval(command)
+	print "The Result Of MatchedDocs : " + str(eval(command))
 	
-
 def HandelQuery(query):
 	global constatnts
 	result = {}
@@ -59,19 +58,20 @@ def HandelQuery(query):
 		if query[x].lower() not in constatnts:
 			query[x] = query[x].lower()
 			result[query[x]] = GetPostingList(query[x])
-	print result
+	print "The Posting List Of The Query : " + str(result)
 	GetMatchedDoc(query)
 
 def ShowTermsDocument():
+	print "Each Document WIth its terms"
 	for term in docs:
-		for i in Posting_list[term]:
-			print Posting_list[i] , i
+		print term
+			
 
 def StartProgram():
 	ReadFiles()
+	ShowTermsDocument()
 	HandleTokens()
 	PostingList()
-	#ShowTermsDocument()
 	query = raw_input("Enter Your Query: ")
 	query = query.split(' ')
 
