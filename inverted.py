@@ -41,25 +41,26 @@ def GetFrequency(token):
 		return len(Posting_list[token])
 	return 0
 
-def GetMatchedDoc(PostingDict):
-	temp = []
-	for index in PostingDict:
-		temp.append(PostingDict[index])
-	my_sets = map(set, temp)
-	common_items = set.intersection(*my_sets)
-	matched = list(common_items)
-	for doc in matched:
-		print "File number " + str(doc) + " Is matched doc whic is located at " + files[doc]
-
+def GetMatchedDoc(query):
+	command = ''
+	for term in query:
+		if term.lower() in constatnts:
+			command = command + ' ' + term.lower()
+		if term.lower() in Posting_list:
+			command = command + ' ' + str(Posting_list[term])
+	print eval(command)
+	
 
 def HandelQuery(query):
+	global constatnts
 	result = {}
 	MatchedDocs = []
 	for x in xrange(0,len(query)):
-		query[x] = query[x].lower()
-		result[query[x]] = GetPostingList(query[x])
+		if query[x].lower() not in constatnts:
+			query[x] = query[x].lower()
+			result[query[x]] = GetPostingList(query[x])
 	print result
-	GetMatchedDoc(result)
+	GetMatchedDoc(query)
 
 def ShowTermsDocument():
 	for term in docs:
@@ -73,6 +74,7 @@ def StartProgram():
 	#ShowTermsDocument()
 	query = raw_input("Enter Your Query: ")
 	query = query.split(' ')
+
 	HandelQuery(query)
 
 StartProgram()
