@@ -3,7 +3,7 @@ from operator import itemgetter, attrgetter
 files = glob.glob("docs/*.txt")
 docs = []
 Posting_list = {}
-
+constatnts = ['and' , 'or' , 'not' , ')' , '(']
 #Step 1
 def ReadFiles():	
 	global docs 
@@ -11,7 +11,9 @@ def ReadFiles():
 		file = open(files[x], 'r')
 		line = file.read().split('\t')
 		for y in range(0,len(line)):
-			docs.append((x+1 , line[y].lower()))
+			if not (x+1 , line[y].lower()) in docs:
+				docs.append((x+1 , line[y].lower()))
+			
 
 #Step 2
 def HandleTokens():
@@ -58,11 +60,17 @@ def HandelQuery(query):
 		result[query[x]] = GetPostingList(query[x])
 	print result
 	GetMatchedDoc(result)
-	
+
+def ShowTermsDocument():
+	for term in docs:
+		for i in Posting_list[term]:
+			print Posting_list[i] , i
+
 def StartProgram():
 	ReadFiles()
 	HandleTokens()
 	PostingList()
+	#ShowTermsDocument()
 	query = raw_input("Enter Your Query: ")
 	query = query.split(' ')
 	HandelQuery(query)
